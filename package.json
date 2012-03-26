@@ -1,0 +1,9 @@
+{
+  "name": "nhnlab",                                              
+  "version": "0.0.1",
+  "dependencies":
+  {
+    "express": ">= 2.5",
+    "jade": ">=0.16.2"    
+  }
+}
