@@ -30,9 +30,17 @@ app.get('/', function(req, res){
     var useragent = req.headers['user-agent'];
     res.render('index', {
     title: 'Express',
-    useragent: useragent
+    useragent: useragent,
+    ismobile: checkmobile(useragent)
   });
 });
+
+function checkmobile(ua){
+    if(ua.match(/mobile/i))
+        return true;
+    else
+        return false;
+}
 
 if (!module.parent) {
   app.listen(port);
