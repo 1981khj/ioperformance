@@ -1,0 +1,36 @@
+!!!5
+html
+    head
+        title= 'test'
+        meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, target-densitydpi=medium-dpi') 
+        link(rel='stylesheet', href='http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css')        
+        link(rel='icon', href='/img/favicon.ico')
+        script(type='text/javascript', src='http://code.jquery.com/jquery-1.6.4.min.js')
+        script(type='text/javascript', src='http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js')
+        script(type='text/javascript', src='/socket.io/socket.io.js')
+    body
+        div(data-role='page', id='index')
+            div(data-role='header')
+                h1 PerformanceTest
+            div(data-role='content')
+                div(data-role='fieldcontain')
+                    p 설명: 사용자가 임의의 테스트 페이지에 접속한 후 테스트를 사용하면 하단의 패킷수, 반복횟수, 시간간격대로 자동수행하여 디비에 해당 내용을 기록한다.
+                    label(for='packetCnt') 패킷수:
+                    input(type='text', name='packetCnt', id='packetCnt', value='', placeholder='한번에 보낼 패킷 수')
+                    label(for='repeatCnt') 반복횟수: 
+                    select(name='repeatCnt', id='repeatCnt')
+                        option(value='1') 1
+                        option(value='2') 2
+                        option(value='3') 3
+                        option(value='4') 4
+                        option(value='5', selected='selected') 5
+                        option(value='6') 6
+                        option(value='7') 7
+                        option(value='8') 8
+                        option(value='9') 9
+                        option(value='10') 10
+                    label(for='timeDuration') 시간간격(초): 
+                    input(type='text', name='timeDuration', id='timeDuration', value='5', placeholder='시간 간격')
+                    p
+                    input(type='button', name='testRun', id='testRun', value='run')
+        script(type='text/javascript', src='/js/test.js')

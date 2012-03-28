@@ -1,0 +1,19 @@
+!!!5
+html
+    head
+        title= 'client'
+        meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, target-densitydpi=medium-dpi') 
+        link(rel='stylesheet', href='http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css')        
+        link(rel='icon', href='/img/favicon.ico')
+        script(type='text/javascript', src='http://code.jquery.com/jquery-1.6.4.min.js')
+        script(type='text/javascript', src='http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js')
+        script(type='text/javascript', src='/socket.io/socket.io.js')
+    body
+        div(data-role='page', id='index')
+            div(data-role='header')
+                h1 PerformanceCheck
+            div(data-role='content')
+                div(data-role='fieldcontain')
+                    p 설명: 아무것도 안하고 가만히 켜놓고 계시면 자동 실행 됩니다.
+            script(type='text/javascript', src='/js/client.js')
+                    
