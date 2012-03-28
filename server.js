@@ -48,6 +48,40 @@ app.get('/client', function(req, res){
     res.render('client');
 });
 
+app.get('/result', function(req, res){
+    logCollection.find().toArray(function(err, items) {
+        if (err) throw err;
+ 
+        //console.log(items);
+    	//res.send();
+        items = JSON.stringify(items);
+        res.render('result',{title:'result', items:items});
+	});  
+    
+});
+
+
+/** Socket.io settings*/
+io.configure('production', function(){
+    io.enable('browser client minification');  // send minified client
+    io.enable('browser client etag');          // apply etag caching logic based on version number
+    io.enable('browser client gzip');          // gzip the file
+    io.enable('browser client etag');
+    io.set('log level', 1);
+    io.set('close timeout', 1500);
+    io.set('transports', [
+        'websocket'
+        , 'flashsocket'
+        , 'htmlfile'
+        , 'xhr-polling'
+        , 'jsonp-polling'
+    ]);
+});
+
+io.configure('development', function(){
+    io.set('transports', ['websocket']);
+});
+
 var sendPacketTimer = null;
 
 io.sockets.on('connection', function(socket) {
