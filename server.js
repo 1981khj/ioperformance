@@ -63,12 +63,12 @@ app.get('/result', function(req, res){
 
 /** Socket.io settings*/
 io.configure('production', function(){
-    io.enable('browser client minification');  // send minified client
-    io.enable('browser client etag');          // apply etag caching logic based on version number
-    io.enable('browser client gzip');          // gzip the file
+    io.enable('browser client minification');
+    io.enable('browser client etag');
+    io.enable('browser client gzip');
     io.enable('browser client etag');
     io.set('log level', 1);
-    io.set('close timeout', 1500);
+    //io.set('close timeout', 1500);
     io.set('transports', [
         'websocket'
         , 'flashsocket'
