@@ -1,4 +1,4 @@
-/*! Socket.IO.js build:0.9.2, development. Copyright(c) 2011 LearnBoost <dev@learnboost.com> MIT Licensed */
+/*! Socket.IO.js build:0.8.7, development. Copyright(c) 2011 LearnBoost <dev@learnboost.com> MIT Licensed */
 
 /**
  * socket.io
@@ -22,7 +22,7 @@
    * @api public
    */
 
-  io.version = '0.9.2';
+  io.version = '0.8.7';
 
   /**
    * Protocol implemented.
@@ -102,6 +102,7 @@
   };
 
 })('object' === typeof module ? module.exports : (this.io = {}), this);
+
 /**
  * socket.io
  * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
@@ -209,7 +210,7 @@
     for (; i < l; ++i) {
       kv = params[i].split('=');
       if (kv[0]) {
-        query[kv[0]] = kv[1];
+        query[kv[0]] = decodeURIComponent(kv[1]);
       }
     }
 
@@ -269,7 +270,7 @@
 
     if (!xdomain) {
       try {
-        return new window[(['Active'].concat('Object').join('X'))]('Microsoft.XMLHTTP');
+        return new ActiveXObject('Microsoft.XMLHTTP');
       } catch(e) { }
     }
 
@@ -398,7 +399,10 @@
    */
 
   util.indexOf = function (arr, o, i) {
-    
+    if (Array.prototype.indexOf) {
+      return Array.prototype.indexOf.call(arr, o, i);
+    }
+
     for (var j = arr.length, i = i < 0 ? i + j < 0 ? 0 : i + j : i || 0; 
          i < j && arr[i] !== o; i++) {}
 
@@ -1269,7 +1273,7 @@
     // If the connection in currently open (or in a reopening state) reset the close 
     // timeout since we have just received data. This check is necessary so
     // that we don't reset the timeout on an explicitly disconnected connection.
-    if (this.socket.connected || this.socket.connecting || this.socket.reconnecting) {
+    if (this.connected || this.connecting || this.reconnecting) {
       this.setCloseTimeout();
     }
 
@@ -1294,8 +1298,6 @@
    */
 
   Transport.prototype.onPacket = function (packet) {
-    this.socket.setHeartbeatTimeout();
-
     if (packet.type == 'heartbeat') {
       return this.onHeartbeat();
     }
@@ -1463,6 +1465,7 @@
     'undefined' != typeof io ? io : module.exports
   , 'undefined' != typeof io ? io : module.parent.exports
 );
+
 /**
  * socket.io
  * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
@@ -1613,7 +1616,6 @@
       var xhr = io.util.request();
 
       xhr.open('GET', url, true);
-      xhr.withCredentials = true;
       xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
           xhr.onreadystatechange = empty;
@@ -1673,8 +1675,6 @@
         , self.options.transports
       );
 
-      self.setHeartbeatTimeout();
-
       function connect (transports){
         if (self.transport) self.transport.clearTimeouts();
 
@@ -1714,7 +1714,7 @@
         });
       }
 
-      connect(self.options.transports);
+      connect();
 
       self.once('connect', function (){
         clearTimeout(self.connectTimeoutTimer);
@@ -1724,22 +1724,6 @@
     });
 
     return this;
-  };
-
-  /**
-   * Clears and sets a new heartbeat timeout using the value given by the
-   * server during the handshake.
-   *
-   * @api private
-   */
-
-  Socket.prototype.setHeartbeatTimeout = function () {
-    clearTimeout(this.heartbeatTimeoutTimer);
-
-    var self = this;
-    this.heartbeatTimeoutTimer = setTimeout(function () {
-      self.transport.onClose();
-    }, this.heartbeatTimeout);
   };
 
   /**
@@ -1783,7 +1767,7 @@
    */
 
   Socket.prototype.disconnect = function () {
-    if (this.connected || this.connecting) {
+    if (this.connected) {
       if (this.open) {
         this.of('').packet({ type: 'disconnect' });
       }
@@ -1865,7 +1849,6 @@
 
   Socket.prototype.onClose = function () {
     this.open = false;
-    clearTimeout(this.heartbeatTimeoutTimer);
   };
 
   /**
@@ -1886,11 +1869,9 @@
 
   Socket.prototype.onError = function (err) {
     if (err && err.advice) {
-      if (err.advice === 'reconnect' && (this.connected || this.connecting)) {
+      if (err.advice === 'reconnect' && this.connected) {
         this.disconnect();
-        if (this.options.reconnect) {
-          this.reconnect();
-        }
+        this.reconnect();
       }
     }
 
@@ -1904,22 +1885,19 @@
    */
 
   Socket.prototype.onDisconnect = function (reason) {
-    var wasConnected = this.connected
-      , wasConnecting = this.connecting;
+    var wasConnected = this.connected;
 
     this.connected = false;
     this.connecting = false;
     this.open = false;
 
-    if (wasConnected || wasConnecting) {
+    if (wasConnected) {
       this.transport.close();
       this.transport.clearTimeouts();
-      if (wasConnected) {
-        this.publish('disconnect', reason);
+      this.publish('disconnect', reason);
 
-        if ('booted' != reason && this.options.reconnect && !this.reconnecting) {
-          this.reconnect();
-        }
+      if ('booted' != reason && this.options.reconnect && !this.reconnecting) {
+        this.reconnect();
       }
     }
   };
@@ -1949,8 +1927,6 @@
         }
         self.publish('reconnect', self.transport.name, self.reconnectionAttempts);
       }
-
-      clearTimeout(self.reconnectionTimer);
 
       self.removeListener('connect_failed', maybeReconnect);
       self.removeListener('connect', maybeReconnect);
@@ -2644,6 +2620,7 @@
   , 'undefined' != typeof io ? io : module.parent.exports
   , this
 );
+
 /**
  * socket.io
  * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
@@ -2688,7 +2665,7 @@
   HTMLFile.prototype.name = 'htmlfile';
 
   /**
-   * Creates a new Ac...eX `htmlfile` with a forever loading iframe
+   * Creates a new ActiveX `htmlfile` with a forever loading iframe
    * that can be used to listen to messages. Inside the generated
    * `htmlfile` a reference will be made to the HTMLFile transport.
    *
@@ -2696,7 +2673,7 @@
    */
 
   HTMLFile.prototype.get = function () {
-    this.doc = new window[(['Active'].concat('Object').join('X'))]('htmlfile');
+    this.doc = new ActiveXObject('htmlfile');
     this.doc.open();
     this.doc.write('<html></html>');
     this.doc.close();
@@ -2774,16 +2751,16 @@
 
   /**
    * Checks if the browser supports this transport. The browser
-   * must have an `Ac...eXObject` implementation.
+   * must have an `ActiveXObject` implementation.
    *
    * @return {Boolean}
    * @api public
    */
 
   HTMLFile.check = function () {
-    if (typeof window != "undefined" && (['Active'].concat('Object').join('X')) in window){
+    if ('ActiveXObject' in window){
       try {
-        var a = new window[(['Active'].concat('Object').join('X'))]('htmlfile');
+        var a = new ActiveXObject('htmlfile');
         return a && io.Transport.XHR.check();
       } catch(e){}
     }
@@ -2905,20 +2882,14 @@
 
     function onload () {
       this.onload = empty;
-      this.onerror = empty;
       self.onData(this.responseText);
       self.get();
-    };
-
-    function onerror () {
-      self.onClose();
     };
 
     this.xhr = this.request();
 
     if (global.XDomainRequest && this.xhr instanceof XDomainRequest) {
-      this.xhr.onload = onload;
-      this.xhr.onerror = onerror;
+      this.xhr.onload = this.xhr.onerror = onload;
     } else {
       this.xhr.onreadystatechange = stateChange;
     }
@@ -2936,7 +2907,7 @@
     io.Transport.XHR.prototype.onClose.call(this);
 
     if (this.xhr) {
-      this.xhr.onreadystatechange = this.xhr.onload = this.xhr.onerror = empty;
+      this.xhr.onreadystatechange = this.xhr.onload = empty;
       try {
         this.xhr.abort();
       } catch(e){}

@@ -5,8 +5,8 @@ var fs = require('fs');
 var util = require('util');
 var mongo = require("mongoskin");
 var mongoUrl = "mongodb://admin:admin@ds031637.mongolab.com:31637/servicelog?auto_reconnect";
-var db = mongo.db(mongoUrl);
-var logCollection = db.collection("log");
+//var db = mongo.db(mongoUrl);
+//var logCollection = db.collection("log");
 var io = require('socket.io').listen(app);
 
 app.configure(function() {
@@ -40,6 +40,10 @@ app.get('/', function(req, res){
   });
 });
 
+app.get('/connect', function(req, res){
+    res.render('connect');
+});
+
 app.get('/test', function(req, res){
     res.render('test');
 });
@@ -49,6 +53,8 @@ app.get('/client', function(req, res){
 });
 
 app.get('/result', function(req, res){
+    var db = mongo.db(mongoUrl);
+    var logCollection = db.collection("log");
     logCollection.find().toArray(function(err, items) {
         if (err) throw err;
  
@@ -79,12 +85,15 @@ io.configure('production', function(){
 });
 
 io.configure('development', function(){
-    io.set('transports', ['websocket']);
+    io.set('log level', 3);
+    io.set('transports', ['websocket']);    
 });
 
 var sendPacketTimer = null;
 
 io.sockets.on('connection', function(socket) {
+    console.log(socket.id+' connected');
+    
     socket.on('runPerformance', function(data){
         console.log("runPerformance");
         console.log(data);
@@ -111,12 +120,14 @@ io.sockets.on('connection', function(socket) {
     });
 
     socket.on('sendLogData', function(data){
+        var db = mongo.db(mongoUrl);
+        var logCollection = db.collection("log");
         logCollection.insert({content:data});
         console.log("saveData");
 	});
 
 	socket.on('disconnect', function(){
-
+        console.log(socket.id+' disconnected');
 	});
 });
 
