@@ -11,15 +11,17 @@
     //for deploy
     var socket = io.connect('http://ioperformance.herokuapp.com/');
 
-
+    var conType = null;
     //처음 소켓 접속을 시도 하는 중인 경우
     socket.on('connecting', function(connectionType){        
-        status_update("Connecting connectionType: "+connectionType);        
+        status_update("Connecting connectionType: "+connectionType);
+        conType = connectionType;
     });
     
     //처음 소켓 접속이 이루어진 경우
-    socket.on('connect', function(){
+    socket.on('connect', function(type){
         status_update("Connected");
+        console.log(type);
         
         //console.log("Socket connected: " + socket.socket.connected);
         //console.log("sessionid: "+socket.socket.sessionid);
@@ -30,7 +32,8 @@
         $("#info").empty();
         info_update("Socket connected: " + socket.socket.connected);
         info_update("sessionid: "+socket.socket.sessionid);
-        info_update("connection Type: "+socket.socket.transports[0]);
+        info_update("connection Type: "+conType);
+        //info_update("connection Type: "+socket.socket.transports[0]);
         info_update("closeTimeout: "+socket.socket.closeTimeout);        
         $('#info').slideDown();
     });
