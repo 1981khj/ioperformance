@@ -8,10 +8,13 @@
             'reconnection limit': 32000,
             'max reconnection attempts': 6
         };
-        
-    console.log(options["max reconnection attempts"]);
-        
-    var socket = io.connect('http://ioperformance.hjkim.c9.io', options);
+    
+    //for dev
+    //var socket = io.connect('http://ioperformance.hjkim.c9.io', options);
+    
+    //for deploy
+    var socket = io.connect('http://ioperformance.herokuapp.com/', options);    
+    
     //console.log(window.location.hostname);
     //for deploy
     //var socket = io.connect('http://ioperformance.herokuapp.com/');
