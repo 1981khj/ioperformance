@@ -3,13 +3,18 @@
     var options ={
             //'force new connection':true,
             //'reconnect': false
-            'max reconnection attempts':3
+            //'connect timeout': 1000,
+            'reconnection delay': 500,
+            'reconnection limit': 32000,
+            'max reconnection attempts': 6
         };
         
-    //var socket = io.connect('http://ioperformance.hjkim.c9.io', options);
+    console.log(options["max reconnection attempts"]);
+        
+    var socket = io.connect('http://ioperformance.hjkim.c9.io', options);
     //console.log(window.location.hostname);
     //for deploy
-    var socket = io.connect('http://ioperformance.herokuapp.com/');
+    //var socket = io.connect('http://ioperformance.herokuapp.com/');
 
     var conType = null;
     //처음 소켓 접속을 시도 하는 중인 경우
@@ -19,27 +24,21 @@
     });
     
     //처음 소켓 접속이 이루어진 경우
-    socket.on('connect', function(type){
-        status_update("Connected");
-        console.log(type);
+    socket.on('connect', function(){
+        status_update("Connected");        
         
-        //console.log("Socket connected: " + socket.socket.connected);
-        //console.log("sessionid: "+socket.socket.sessionid);
-        //console.log(socket.socket.transport);
-        //console.log("connection Type: "+socket.socket.transports[0]);        
-        //console.log("closeTimeout: "+socket.socket.closeTimeout);
-        //console.log(socket);
         $("#info").empty();
         info_update("Socket connected: " + socket.socket.connected);
         info_update("sessionid: "+socket.socket.sessionid);
         info_update("connection Type: "+conType);
         //info_update("connection Type: "+socket.socket.transports[0]);
-        info_update("closeTimeout: "+socket.socket.closeTimeout);        
-        $('#info').slideDown();
+        info_update("closeTimeout: "+socket.socket.closeTimeout);
+        console.log(socket);
     });
     
     socket.on('connect_failed', function(reason){
         status_update("Connect Failed "+reason);
+        console.log(reason);
     });
 
     //소켓 접속을 잃은 경우
@@ -54,6 +53,14 @@
     //소켓 접속을 잃은 후 재 접속 시도
     socket.on('reconnecting', function( reconnetionDelay, reconnectionAttempts ) {
         status_update("Reconnecting in " + reconnetionDelay + " seconds"+" / attempts: "+reconnectionAttempts);
+        
+        if(options["max reconnection attempts"]==reconnectionAttempts){
+            console.log("마지막");
+            setTimeout(function(){
+                console.log('마지막 연결 체크');
+                console.log(socket.socket.connected);
+            },reconnetionDelay)
+        }
     });
 
     //소켓 재접속이 성공적으로 이루 어진 경우
