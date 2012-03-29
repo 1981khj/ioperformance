@@ -77,7 +77,7 @@ io.configure('production', function(){
     //io.set('close timeout', 1500);
     io.set('transports', [
         'websocket'
-        , 'flashsocket'
+        //, 'flashsocket'
         , 'htmlfile'
         , 'xhr-polling'
         , 'jsonp-polling'
@@ -86,7 +86,14 @@ io.configure('production', function(){
 
 io.configure('development', function(){
     io.set('log level', 3);
-    io.set('transports', ['websocket']);    
+    io.set('transports', [
+        'websocket'
+        //, 'flashsocket'
+        , 'htmlfile'
+        , 'xhr-polling'
+        , 'jsonp-polling'
+    ]);
+    
 });
 
 var sendPacketTimer = null;
@@ -124,6 +131,14 @@ io.sockets.on('connection', function(socket) {
         var logCollection = db.collection("log");
         logCollection.insert({content:data});
         console.log("saveData");
+	});
+    
+    socket.on('reconnect_failed', function(){
+        console.log(socket.id+' reconnect_failed');
+	});
+    
+    socket.on('reconnect', function(){
+        console.log(socket.id+' reconnect');
 	});
 
 	socket.on('disconnect', function(){
