@@ -78,8 +78,8 @@ io.configure('production', function(){
     io.set('transports', [
         //'websocket'
         //, 'flashsocket'
-        'htmlfile'
-        //'xhr-polling'
+        //'htmlfile'
+        'xhr-polling'
         //'jsonp-polling'
     ]);
 });
