@@ -163,8 +163,8 @@ video.on('connection', function (socket) {
     console.log('video connection connected');
     
     socket.on('receiveImg', function(data){                        
-        socket.broadcast.volatile.emit('drawImg', data);
-        //io.sockets.in('namespace').emit('drawImg', data).
+        //socket.broadcast.volatile.emit('drawImg', data);
+        io.sockets.in('video').volatile.emit('drawImg', data);
     });
     
     socket.on('disconnect', function(){
