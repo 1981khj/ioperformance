@@ -23,8 +23,8 @@
     video.on('connect', function(){
         status_update("Connected");
         $("#info").empty();
-        info_update("Socket connected: " + socket.socket.connected);
-        info_update("sessionid: "+socket.socket.sessionid);
+        info_update("Socket connected: " + video.socket.connected);
+        info_update("sessionid: "+video.socket.sessionid);
         info_update("connection Type: "+conType);        
     });
     
