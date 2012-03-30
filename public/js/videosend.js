@@ -1,4 +1,4 @@
-(function($) {
+    (function($) {
     
     var options ={            
         'reconnection delay': 500,
@@ -7,10 +7,10 @@
     };
     
     //for dev
-    var video = io.connect('http://ioperformance.hjkim.c9.io/video', options);
+    //var video = io.connect('http://ioperformance.hjkim.c9.io/video', options);
     
     //for deploy
-    //var video = io.connect('http://ioperformance.herokuapp.com/video', options);
+    var video = io.connect('http://ioperformance.herokuapp.com/video', options);
     
     var conType = null;
     //처음 소켓 접속을 시도 하는 중인 경우
