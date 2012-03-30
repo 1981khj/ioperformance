@@ -1,0 +1,25 @@
+!!!5
+html
+    head
+        title= 'video'
+        meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, target-densitydpi=medium-dpi') 
+        link(rel='stylesheet', href='http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css')        
+        link(rel='icon', href='/img/favicon.ico')
+        script(type='text/javascript', src='http://code.jquery.com/jquery-1.7.1.min.js')
+        script(type='text/javascript', src='http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js')
+        script(type='text/javascript', src='/socket.io/socket.io.js')
+    body
+        div(data-role='page', id='index')
+            div(data-role='header')
+                h1 index
+            div(data-role='content')
+                p#status Wating for input                
+                p#info
+            div
+                video#video(width="320", autoplay="autoplay")
+            div
+                button#start start
+                button#stop stop
+            #output
+                canvas#canvas
+            script(type='text/javascript', src='/js/videosend.js')

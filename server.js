@@ -66,6 +66,13 @@ app.get('/result', function(req, res){
     
 });
 
+app.get('/video', function(req, res){
+    res.render('video');
+});
+
+app.get('/videosend', function(req, res){
+    res.render('videosend');
+});
 
 /** Socket.io settings*/
 
@@ -148,6 +155,19 @@ io.sockets.on('connection', function(socket) {
 
 	socket.on('disconnect', function(){
         console.log(socket.id+' disconnected');
+	});
+});
+
+var video = io.of('/video');
+video.on('connection', function (socket) {
+    console.log('video connection connected');
+    
+    socket.on('receiveImg', function(data){                
+        io.sockets.volatile.emit('drawImg', data);
+    });
+    
+    socket.on('disconnect', function(){
+        console.log(socket.id+' video connection disconnected');
 	});
 });
 
