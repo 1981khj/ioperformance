@@ -95,7 +95,7 @@ io.configure('production', function(){
 });
 
 io.configure('development', function(){
-    io.set('log level', 3);
+    io.set('log level', 1);
     io.set('transports', [
         'websocket'
         , 'xhr-polling'
@@ -156,18 +156,13 @@ io.sockets.on('connection', function(socket) {
 	socket.on('disconnect', function(){
         console.log(socket.id+' disconnected');
 	});
-    
-    socket.on('receiveImg', function(data){                
-        socket.broadcast.volatile.emit('drawImg', data);
-        //io.sockets.in('namespace').emit('drawImg', data).
-    });
 });
 
 var video = io.of('/video');
 video.on('connection', function (socket) {
     console.log('video connection connected');
     
-    socket.on('receiveImg', function(data){                
+    socket.on('receiveImg', function(data){                        
         socket.broadcast.volatile.emit('drawImg', data);
         //io.sockets.in('namespace').emit('drawImg', data).
     });

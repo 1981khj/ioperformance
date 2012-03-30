@@ -10,8 +10,7 @@
     //var video = io.connect('http://ioperformance.hjkim.c9.io/video', options);
     
     //for deploy
-    //var video = io.connect('http://ioperformance.herokuapp.com/video', options);
-    var video = io.connect('http://ioperformance.herokuapp.com/', options);
+    var video = io.connect('http://ioperformance.herokuapp.com/video', options);    
     
     var conType = null;
     //처음 소켓 접속을 시도 하는 중인 경우
@@ -24,9 +23,10 @@
     video.on('connect', function(){
         status_update("Connected");
         $("#info").empty();
+        console.log(video);
         info_update("Socket connected: " + video.socket.connected);
         info_update("sessionid: "+video.socket.sessionid);
-        info_update("connection Type: "+conType);        
+        info_update("connection Type: "+conType);
     });
     
     video.on('connect_failed', function(){
@@ -59,7 +59,7 @@
 
 
     $("#start").bind("click",function(){
-        startTimer();
+        startTimer();        
     });
 
     $("#stop").bind("click",function(){
@@ -67,16 +67,16 @@
     });
     
     //////////////////////////////
-    var video  = $("#video")[0];
+    var elVideo  = $("#video")[0];
     var canvas = $("#canvas")[0];
     var ctx = canvas.getContext('2d');
 	var intervalTimer=null;
     
     
     if(navigator.getUserMedia) {
-        navigator.getUserMedia('video', successCallback, errorCallback);
+        navigator.getUserMedia('elVideo', successCallback, errorCallback);
         function successCallback( stream ) {
-            video.src = stream;
+            elVideo.src = stream;
         }
         function errorCallback( error ) {
             alert("현재 브라우저는 카메라를 지원하지 못합니다.");
