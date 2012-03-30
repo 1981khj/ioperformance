@@ -77,24 +77,24 @@ io.configure('production', function(){
     io.set('log level', 2);
     //io.set('close timeout', 1500);
     io.set('transports', [
-        //'websocket'
+        'websocket'
         //, 'flashsocket'
         //'htmlfile'
-        'htmlfile'
+        , 'htmlfile'
         //'xhr-polling',
-        , 'jsonp-polling'
+        //, 'jsonp-polling'
     ]);
 });
 
 io.configure('development', function(){
     io.set('log level', 3);
     io.set('transports', [
-        //'websocket'
+        'websocket'
         //, 'flashsocket'
         //, 'htmlfile'
-        'htmlfile'
+        , 'htmlfile'
         //, 'xhr-polling'
-        , 'jsonp-polling'
+        //, 'jsonp-polling'
     ]);
     
 });
