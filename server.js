@@ -68,7 +68,18 @@ app.get('/result', function(req, res){
 
 
 /** Socket.io settings*/
-io.configure('production', function(){
+io.configure(function(){
+    io.enable('browser client minification');
+    io.enable('browser client etag');
+    io.enable('browser client gzip');
+    io.enable('browser client etag');
+    io.set('log level', 2);
+    //io.set('close timeout', 1500);
+    io.set('transports', [
+        'jsonp-polling'
+    ]);
+});
+/*io.configure('production', function(){
     io.enable('browser client minification');
     io.enable('browser client etag');
     io.enable('browser client gzip');
@@ -82,7 +93,7 @@ io.configure('production', function(){
         //'xhr-polling',
         'jsonp-polling'
     ]);
-});
+});*/
 
 /*io.configure('development', function(){
     io.set('log level', 3);
