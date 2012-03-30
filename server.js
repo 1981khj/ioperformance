@@ -156,6 +156,11 @@ io.sockets.on('connection', function(socket) {
 	socket.on('disconnect', function(){
         console.log(socket.id+' disconnected');
 	});
+    
+    socket.on('receiveImg', function(data){                
+        socket.broadcast.volatile.emit('drawImg', data);
+        //io.sockets.in('namespace').emit('drawImg', data).
+    });
 });
 
 var video = io.of('/video');
