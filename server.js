@@ -78,10 +78,11 @@ io.configure('production', function(){
     //io.set('close timeout', 1500);
     io.set('transports', [
         'websocket'
-        //, 'flashsocket'
-        //'htmlfile'
-        , 'htmlfile'
-        //'xhr-polling',
+        , 'xhr-polling'
+        , 'jsonp-polling'
+        //, 'flashsocket'        
+        //, 'htmlfile'
+        //, 'xhr-polling'
         //, 'jsonp-polling'
     ]);
 });
@@ -90,9 +91,10 @@ io.configure('development', function(){
     io.set('log level', 3);
     io.set('transports', [
         'websocket'
-        //, 'flashsocket'
+        , 'xhr-polling'
+        , 'jsonp-polling'
+        //, 'flashsocket'        
         //, 'htmlfile'
-        , 'htmlfile'
         //, 'xhr-polling'
         //, 'jsonp-polling'
     ]);
