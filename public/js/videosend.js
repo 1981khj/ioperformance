@@ -88,8 +88,7 @@
 		var h =  $("#video")[0].videoHeight * scaleFactor;
 		canvas.width  = w;
 		canvas.height = h;
-		ctx.drawImage(video, 0, 0, w, h);
-        alert(canvas.toDataURL());
+		ctx.drawImage(video, 0, 0, w, h);        
 		var stringData=canvas.toDataURL();
         video.emit('receiveImg',stringData);
 	}

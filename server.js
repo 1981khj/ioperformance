@@ -163,11 +163,11 @@ video.on('connection', function (socket) {
     console.log('video connection connected');
     
     socket.on('receiveImg', function(data){                
-        io.sockets.volatile.emit('drawImg', data);
+        video.broadcast.volatile.emit('drawImg', data);
     });
     
     socket.on('disconnect', function(){
-        console.log(socket.id+' video connection disconnected');
+        console.log('video connection disconnected');
 	});
 });
 
