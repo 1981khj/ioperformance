@@ -73,18 +73,18 @@ io.configure('production', function(){
     io.enable('browser client etag');
     io.enable('browser client gzip');
     io.enable('browser client etag');
-    io.set('log level', 1);
+    io.set('log level', 2);
     //io.set('close timeout', 1500);
     io.set('transports', [
-        'websocket'
+        //'websocket'
         //, 'flashsocket'
         //'htmlfile'
         //'xhr-polling',
-        //'jsonp-polling'
+        'jsonp-polling'
     ]);
 });
 
-io.configure('development', function(){
+/*io.configure('development', function(){
     io.set('log level', 3);
     io.set('transports', [
         'websocket'
@@ -94,7 +94,7 @@ io.configure('development', function(){
         , 'jsonp-polling'
     ]);
     
-});
+});*/
 
 var sendPacketTimer = null;
 
