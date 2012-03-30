@@ -76,11 +76,11 @@ io.configure('production', function(){
     io.set('log level', 1);
     //io.set('close timeout', 1500);
     io.set('transports', [
-        'websocket'
+        //'websocket'
         //, 'flashsocket'
-        , 'htmlfile'
-        , 'xhr-polling'
-        , 'jsonp-polling'
+        'htmlfile'
+        //'xhr-polling'
+        //'jsonp-polling'
     ]);
 });
 

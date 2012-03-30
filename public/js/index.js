@@ -10,10 +10,10 @@
         };
     
     //for dev
-    //var socket = io.connect('http://ioperformance.hjkim.c9.io', options);
+    var socket = io.connect('http://ioperformance.hjkim.c9.io', options);
     
     //for deploy
-    var socket = io.connect('http://ioperformance.herokuapp.com/', options);    
+    //var socket = io.connect('http://ioperformance.herokuapp.com/', options);    
     
     //console.log(window.location.hostname);
     //for deploy
