@@ -25,8 +25,8 @@
         status_update("Connected");
         $("#info").empty();
         console.log(video);
-        info_update("Socket connected: " + video.socket.connected);
-        info_update("sessionid: "+video.socket.sessionid);
+        info_update("Socket connected: " + videosend.socket.connected);
+        info_update("sessionid: "+videosend.socket.sessionid);
         info_update("connection Type: "+conType);
     });
     
