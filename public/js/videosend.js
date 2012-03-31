@@ -7,10 +7,10 @@
     };
     
     //for dev
-    var videosend = io.connect('http://ioperformance.hjkim.c9.io/video', options);
+    //var videosend = io.connect('http://ioperformance.hjkim.c9.io/video', options);
     
     //for deploy
-    //var videosend = io.connect('http://ioperformance.herokuapp.com/video', options);
+    var videosend = io.connect('http://ioperformance.herokuapp.com/video', options);
     
     
     var conType = null;
