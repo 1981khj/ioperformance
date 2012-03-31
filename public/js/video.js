@@ -59,7 +59,7 @@
 
     video.on('drawImg', function(data) {
         console.log("drawImg");
-        console.log(data);
+        //console.log(data);
         $("#outPutImg").attr("src",data);
     });
 
