@@ -86,7 +86,7 @@
     }
     
     function capture(){
-		var scaleFactor = 0.05;
+		var scaleFactor = 0.3;
 		var w = $("#video")[0].videoWidth * scaleFactor;
 		var h =  $("#video")[0].videoHeight * scaleFactor;
 		canvas.width  = w;
